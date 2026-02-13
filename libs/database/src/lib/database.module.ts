@@ -145,40 +145,40 @@ import { ShopTaxRuleEntity } from './entities/shop/shop-tax-rule.entity';
 
         // Get current tables count
         const dataSource = new DataSource({
-          type: 'mysql',
-          host: configService.get('MYSQL_HOST', 'localhost'),
-          port: configService.get('MYSQL_PORT', 3306),
-          username: configService.get('MYSQL_USER', 'root'),
-          password: configService.get('MYSQL_PASS', 'defaultpassword'),
-          database: configService.get('MYSQL_DB', 'ridy'),
+          type: 'postgres',
+          host: configService.get('POSTGRES_HOST', 'localhost'),
+          port: configService.get('POSTGRES_PORT', 5432),
+          username: configService.get('POSTGRES_USER', 'root'),
+          password: configService.get('POSTGRES_PASS', 'defaultpassword'),
+          database: configService.get('POSTGRES_DB', 'ridy_taxi'),
+          ssl: { rejectUnauthorized: false },
         });
         if (!dataSource.isInitialized) {
           await dataSource.initialize();
         }
         const currentTables = await dataSource.query(
-          `SELECT COUNT(*) as count FROM information_schema.tables WHERE table_schema = ?`,
-          [configService.get('MYSQL_DB', 'ridy')],
+          `SELECT COUNT(*) as count FROM information_schema.tables WHERE table_schema = $1`,
+          ['public'],
         );
         logger.log(`Current tables count: ${currentTables[0].count}`);
         await dataSource.destroy();
 
         const config: DataSourceOptions = {
-          type: 'mysql',
-          host: configService.get('MYSQL_HOST', 'localhost'),
-          port: configService.get('MYSQL_PORT', 3306),
-          username: configService.get('MYSQL_USER', 'root'),
-          password: configService.get('MYSQL_PASS', 'defaultpassword'),
-          database: configService.get('MYSQL_DB', 'ridy'),
+          type: 'postgres',
+          host: configService.get('POSTGRES_HOST', 'localhost'),
+          port: configService.get('POSTGRES_PORT', 5432),
+          username: configService.get('POSTGRES_USER', 'root'),
+          password: configService.get('POSTGRES_PASS', 'defaultpassword'),
+          database: configService.get('POSTGRES_DB', 'ridy_taxi'),
+          ssl: { rejectUnauthorized: false },
           entities: entities,
-          legacySpatialSupport: false,
           migrations: [`${__dirname}/migrations/*.js`],
           migrationsRun: true,
           synchronize:
             configService.get('NODE_ENV') === 'dev' ||
             configService.get('FORCE_SYNC_DB', false) ||
             currentTables[0].count < 10,
-          // logging: configService.get('NODE_ENV') === 'dev',
-          logging: false, // Enable logging by default
+          logging: false,
         };
 
         logger.log('Database connection configured');
@@ -191,7 +191,7 @@ import { ShopTaxRuleEntity } from './entities/shop/shop-tax-rule.entity';
 export class DatabaseModule implements OnModuleInit {
   private readonly logger = new Logger(DatabaseModule.name);
 
-  constructor(private dataSource: DataSource) {}
+  constructor(private dataSource: DataSource) { }
 
   async onModuleInit() {
     this.logger.log('Running database migrations...');
@@ -205,18 +205,26 @@ export class DatabaseModule implements OnModuleInit {
   private static async ensureDatabaseExists(
     configService: ConfigService,
   ): Promise<void> {
-    const dbName = configService.get('MYSQL_DB', 'ridy');
+    const dbName = configService.get('POSTGRES_DB', 'ridy_taxi');
     const tempConnection = new DataSource({
-      type: 'mysql',
-      host: configService.get('MYSQL_HOST', 'localhost'),
-      port: configService.get('MYSQL_PORT', 3306),
-      username: configService.get('MYSQL_USER', 'root'),
-      password: configService.get('MYSQL_PASS', 'defaultpassword'),
+      type: 'postgres',
+      host: configService.get('POSTGRES_HOST', 'localhost'),
+      port: configService.get('POSTGRES_PORT', 5432),
+      username: configService.get('POSTGRES_USER', 'root'),
+      password: configService.get('POSTGRES_PASS', 'defaultpassword'),
+      ssl: { rejectUnauthorized: false },
+      database: 'postgres',
     });
 
     try {
       await tempConnection.initialize();
-      await tempConnection.query(`CREATE DATABASE IF NOT EXISTS \`${dbName}\``);
+      const dbExists = await tempConnection.query(
+        `SELECT 1 FROM pg_database WHERE datname = $1`,
+        [dbName],
+      );
+      if (dbExists.length === 0) {
+        await tempConnection.query(`CREATE DATABASE "${dbName}"`);
+      }
       Logger.log(`Database '${dbName}' ensured to exist`);
     } catch (error) {
       Logger.error('Failed to create database:', error);
