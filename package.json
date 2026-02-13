@@ -24,6 +24,7 @@
     "@ptc-org/nestjs-query-core": "^9.4.0",
     "@ptc-org/nestjs-query-graphql": "^9.4.0",
     "@ptc-org/nestjs-query-typeorm": "^9.4.0",
+    "@types/pg": "^8.16.0",
     "bullmq": "^5.69.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.3",
@@ -44,6 +45,7 @@
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
     "pdfkit": "^0.17.2",
+    "pg": "^8.18.0",
     "redis": "^5.10.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2",
@@ -54,8 +56,28 @@
     "uuid": "^13.0.0"
   },
   "devDependencies": {
+    "@nestjs/cli": "^11.0.16",
+    "@nestjs/schematics": "^11.0.9",
+    "@nx/eslint": "^22.5.0",
+    "@nx/jest": "^22.5.0",
     "@nx/js": "22.5.0",
+    "@nx/node": "^22.5.0",
+    "@nx/web": "22.5.0",
+    "@nx/webpack": "^22.5.0",
     "@nx/workspace": "22.5.0",
-    "nx": "22.5.0"
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.7",
+    "@svgr/webpack": "^8.0.1",
+    "@swc-node/register": "^1.11.1",
+    "@swc/cli": "^0.8.0",
+    "@swc/core": "^1.15.8",
+    "@swc/helpers": "~0.5.18",
+    "@types/node": "20.19.9",
+    "nx": "22.5.0",
+    "prettier": "~3.6.2",
+    "react-refresh": "^0.10.0",
+    "swc-loader": "^0.2.7",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3",
+    "webpack-cli": "^6.0.1"
   }
 }
