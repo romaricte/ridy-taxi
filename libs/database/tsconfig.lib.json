@@ -1,0 +1,38 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "rootDir": "./src",
+    "composite": true,
+    "noEmit": true,
+    "outDir": "./dist",
+    "tsBuildInfoFile": "./dist/tsconfig.lib.tsbuildinfo",
+    "emitDeclarationOnly": true,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
+    "moduleResolution": "node",
+    "types": [
+      "node"
+    ],
+    "target": "es2022",
+    "module": "es2022",
+    "strict": false
+  },
+  "include": [
+    "./src/**/*.ts"
+  ],
+  "exclude": [
+    "./out-tsc",
+    "./dist",
+    "./jest.config.ts",
+    "./src/**/*.spec.ts",
+    "./src/**/*.test.ts",
+    "./eslint.config.js",
+    "./eslint.config.cjs",
+    "./eslint.config.mjs"
+  ],
+  "references": []
+}

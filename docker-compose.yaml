@@ -1,0 +1,77 @@
+services:
+  mysql:
+    image: mysql:8.0.22
+    platform: linux/amd64
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - mysqlvol:/var/lib/mysql
+      - ./backup:/var/backup
+    env_file:
+      - .env
+    ports:
+      - '3306:3306'
+
+  redis:
+    image: redis
+    platform: linux/amd64
+    volumes:
+      - redisvol:/data
+
+  taxi-rider-api:
+    build:
+      context: ./apps/rider-api
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - 'mysql'
+      - 'redis'
+      - 'taxi-admin-api'
+    volumes:
+      - ./config:/app/config
+    env_file:
+      - .env
+    ports:
+      - '4000:3000'
+
+  taxi-driver-api:
+    build:
+      context: ./apps/driver-api
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - 'mysql'
+      - 'redis'
+      - 'taxi-admin-api'
+    volumes:
+      - ./config:/app/config
+    env_file:
+      - .env
+    ports:
+      - '4002:3000'
+
+  taxi-admin-api:
+    build:
+      context: ./apps/admin-api
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - 'mysql'
+      - 'redis'
+    volumes:
+      - ./config:/app/config
+    env_file:
+      - .env
+    ports:
+      - '4001:3000'
+
+  admin-panel:
+    build:
+      context: ./apps/admin-panel
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - '4003:80'
+
+volumes:
+  redisvol:
+  mysqlvol:
