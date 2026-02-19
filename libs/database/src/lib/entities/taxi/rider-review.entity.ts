@@ -16,7 +16,7 @@ export class RiderReviewEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column('tinyint')
+  @Column('smallint')
   score!: number;
 
   @Column({ name: 'review', nullable: true })

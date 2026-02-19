@@ -54,7 +54,7 @@ export class CouponEntity {
   @Column({ name: 'expirationTimestamp', nullable: true })
   expireAt?: Date;
 
-  @Column('tinyint', {
+  @Column('smallint', {
     default: 0,
   })
   discountPercent!: number;

@@ -139,7 +139,7 @@ export class DriverEntity {
   @CreateDateColumn({ nullable: true })
   registrationTimestamp!: Date;
 
-  @Column('tinyint', { nullable: true })
+  @Column('smallint', { nullable: true })
   rating?: number;
 
   @Column('smallint', { default: 0 })

@@ -50,7 +50,7 @@ export class FleetEntity {
   @Column({ default: false })
   isBlocked!: boolean;
 
-  @Column('tinyint', { default: 0 })
+  @Column('smallint', { default: 0 })
   commissionSharePercent!: number;
 
   @Column('float', { default: 0 })
@@ -83,7 +83,10 @@ export class FleetEntity {
   })
   feeMultiplier?: number;
 
-  @Column('polygon', {
+  @Column({
+    type: 'geometry',
+    spatialFeatureType: 'Polygon',
+    srid: 4326,
     transformer: new PolygonTransformer(),
     nullable: true,
   })

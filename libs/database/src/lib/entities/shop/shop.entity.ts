@@ -103,7 +103,7 @@ export class ShopEntity {
   })
   isExpressDeliveryAvailable!: boolean;
 
-  @Column('tinyint', {
+  @Column('smallint', {
     nullable: false,
     default: 0,
   })
@@ -136,7 +136,10 @@ export class ShopEntity {
   })
   orderQueueLevel!: OrderQueueLevel;
 
-  @Column('point', {
+  @Column({
+    type: 'geometry',
+    spatialFeatureType: 'Point',
+    srid: 4326,
     transformer: new PointTransformer(),
     nullable: true,
   })

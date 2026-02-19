@@ -81,7 +81,10 @@ export class ParkSpotEntity {
   })
   lastActivityAt?: Date;
 
-  @Column('point', {
+  @Column({
+    type: 'geometry',
+    spatialFeatureType: 'Point',
+    srid: 4326,
     transformer: new PointTransformer(),
   })
   location!: Point;

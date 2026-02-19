@@ -30,7 +30,10 @@ export class RegionEntity {
   })
   enabled!: boolean;
 
-  @Column('polygon', {
+  @Column({
+    type: 'geometry',
+    spatialFeatureType: 'Polygon',
+    srid: 4326,
     transformer: new PolygonTransformer(),
   })
   location!: Point[][];

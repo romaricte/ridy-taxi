@@ -1,7 +1,7 @@
 import { Column } from 'typeorm';
 
 export class RatingAggregate {
-  @Column('tinyint', {
+  @Column('smallint', {
     nullable: true,
   })
   rating?: number;
