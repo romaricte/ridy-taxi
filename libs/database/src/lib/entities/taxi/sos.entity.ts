@@ -36,7 +36,10 @@ export class SOSEntity {
   @Column({ nullable: true })
   reasonId?: number;
 
-  @Column('point', {
+  @Column({
+    type: 'geometry',
+    spatialFeatureType: 'Point',
+    srid: 4326,
     transformer: new PointTransformer(),
     nullable: true,
   })

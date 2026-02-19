@@ -156,7 +156,7 @@ export class TaxiOrderEntity {
   })
   providerShare?: number;
 
-  @Column('tinyint', {
+  @Column('smallint', {
     default: -1,
   })
   destinationArrivedTo!: number;
@@ -184,18 +184,27 @@ export class TaxiOrderEntity {
   })
   addresses!: string[];
 
-  @Column('multipoint', {
+  @Column({
+    type: 'geometry',
+    spatialFeatureType: 'MultiPoint',
+    srid: 4326,
     transformer: new MultipointTransformer(),
   })
   points!: Point[];
 
-  @Column('multipoint', {
+  @Column({
+    type: 'geometry',
+    spatialFeatureType: 'MultiPoint',
+    srid: 4326,
     transformer: new MultipointTransformer(),
     nullable: true,
   })
   directions?: Point[];
 
-  @Column('multipoint', {
+  @Column({
+    type: 'geometry',
+    spatialFeatureType: 'MultiPoint',
+    srid: 4326,
     transformer: new MultipointTransformer(),
     nullable: true,
   })

@@ -22,7 +22,10 @@ export class RiderAddressEntity {
   @Column({ nullable: true, name: 'address' })
   details?: string;
 
-  @Column('point', {
+  @Column({
+    type: 'geometry',
+    spatialFeatureType: 'Point',
+    srid: 4326,
     transformer: new PointTransformer(),
   })
   location!: Point;

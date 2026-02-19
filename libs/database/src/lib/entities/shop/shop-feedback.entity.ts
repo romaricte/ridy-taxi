@@ -23,7 +23,7 @@ export class ShopFeedbackEntity {
   @CreateDateColumn({ nullable: true })
   createdAt!: Date;
 
-  @Column('tinyint')
+  @Column('smallint')
   score!: number;
 
   @Column({ nullable: true })

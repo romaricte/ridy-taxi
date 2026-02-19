@@ -106,7 +106,10 @@ export class ShopOrderEntity {
   })
   serviceFee!: number;
 
-  @Column('multipoint', {
+  @Column({
+    type: 'geometry',
+    spatialFeatureType: 'MultiPoint',
+    srid: 4326,
     transformer: new MultipointTransformer(),
     nullable: true,
   })

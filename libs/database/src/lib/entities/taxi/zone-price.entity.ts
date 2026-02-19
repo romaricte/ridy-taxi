@@ -22,12 +22,18 @@ export class ZonePriceEntity {
   @Column()
   name!: string;
 
-  @Column('polygon', {
+  @Column({
+    type: 'geometry',
+    spatialFeatureType: 'Polygon',
+    srid: 4326,
     transformer: new PolygonTransformer(),
   })
   from!: Point[][];
 
-  @Column('polygon', {
+  @Column({
+    type: 'geometry',
+    spatialFeatureType: 'Polygon',
+    srid: 4326,
     transformer: new PolygonTransformer(),
   })
   to!: Point[][];

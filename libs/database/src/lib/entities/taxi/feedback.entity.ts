@@ -20,7 +20,7 @@ export class FeedbackEntity {
   @CreateDateColumn({ nullable: true })
   reviewTimestamp!: Date;
 
-  @Column('tinyint')
+  @Column('smallint')
   score!: number;
 
   @Column({ name: 'review', nullable: true })

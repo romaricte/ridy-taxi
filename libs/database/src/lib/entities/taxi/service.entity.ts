@@ -142,7 +142,7 @@ export class ServiceEntity {
   @Column('int', { default: 0, name: 'maxDestinationDistance' })
   maximumDestinationDistance!: number;
 
-  @Column('tinyint', { default: 0 })
+  @Column('smallint', { default: 0 })
   prepayPercent!: number;
 
   @Column({ default: false })
@@ -162,7 +162,7 @@ export class ServiceEntity {
   })
   cancellationDriverShare!: number;
 
-  @Column('tinyint', { default: 0 })
+  @Column('smallint', { default: 0 })
   providerSharePercent!: number;
 
   @Column('float', {

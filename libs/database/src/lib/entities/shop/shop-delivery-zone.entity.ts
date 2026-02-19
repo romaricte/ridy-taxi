@@ -25,19 +25,22 @@ export class ShopDeliveryZoneEntity {
   })
   deliveryFee!: number;
 
-  @Column('tinyint', { nullable: false, default: 1 })
+  @Column('smallint', { nullable: false, default: 1 })
   minimumOrderAmount!: number;
 
-  @Column('tinyint', { nullable: false })
+  @Column('smallint', { nullable: false })
   minDeliveryTimeMinutes!: number;
 
-  @Column('tinyint', { nullable: false })
+  @Column('smallint', { nullable: false })
   maxDeliveryTimeMinutes!: number;
 
-  @Column('tinyint', { nullable: false, default: 1 })
+  @Column('smallint', { nullable: false, default: 1 })
   enabled!: boolean;
 
-  @Column('polygon', {
+  @Column({
+    type: 'geometry',
+    spatialFeatureType: 'Polygon',
+    srid: 4326,
     transformer: new PolygonTransformer(),
   })
   location!: Point[][];
